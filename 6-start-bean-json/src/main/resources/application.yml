@@ -10,3 +10,8 @@ logging:
   level:
     org:
       springframework : INFO
+
+sprin:
+  http:
+    converters:
+      preferred-json-mapper: fastjson

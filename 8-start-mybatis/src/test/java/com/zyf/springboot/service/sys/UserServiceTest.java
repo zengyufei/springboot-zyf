@@ -1,14 +1,14 @@
 package com.zyf.springboot.service.sys;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zyf.springboot.Demo7ApplicationTests;
+import com.zyf.springboot.Demo8ApplicationTests;
 import com.zyf.springboot.vo.sys.UserVo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class UserServiceTest extends Demo7ApplicationTests {
+public class UserServiceTest extends Demo8ApplicationTests {
 
     @Autowired
     private UserService userService;

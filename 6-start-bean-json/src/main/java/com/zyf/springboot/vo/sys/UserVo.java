@@ -1,9 +1,9 @@
 package com.zyf.springboot.vo.sys;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zyf.springboot.base.BaseVoEntity;
 
+import java.util.Date;
 import java.util.List;
 
 public class UserVo extends BaseVoEntity {
@@ -12,10 +12,8 @@ public class UserVo extends BaseVoEntity {
     /**
      * 等于 id
      */
-    @JsonIgnore
     @JSONField(serialize = false)
     private Integer userId;
-    @JsonIgnore
     @JSONField(serialize = false)
     private Integer userLoginId;
     /**
@@ -35,28 +33,35 @@ public class UserVo extends BaseVoEntity {
     /**
      * 密码
      */
-    @JsonIgnore
     @JSONField(serialize = false)
     private String password;
 
     /**
      * 用户类型： 1 系统用户。2 普通用户。3 其他用户
      */
-    @JsonIgnore
     @JSONField(serialize = false)
     private Integer type;
     private String typeName;
     /*仅作为接收参数使用*/
-    @JsonIgnore
     @JSONField(serialize = false)
     private List<Integer> typeList;
 
     /**
      * 是否启用：false 禁用。true 可用
      */
-    @JsonIgnore
     @JSONField(serialize = false)
     private boolean enable;
+
+    /**
+     * 创建时间
+     */
+    @JSONField(format = "yyyy-MM-dd hh:mm:ss")
+    private Date createTime;
+    /**
+     * 修改时间
+     */
+    @JSONField(format = "yyyy-MM-dd hh:mm:ss")
+    private Date updateTime;
 
     public Integer getId() {
         return id;
@@ -144,5 +149,21 @@ public class UserVo extends BaseVoEntity {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

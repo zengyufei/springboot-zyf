@@ -1,12 +1,12 @@
 package com.zyf.springboot.controller.sys;
 
-import com.zyf.springboot.Demo7ApplicationTests;
+import com.zyf.springboot.Demo8ApplicationTests;
 import org.junit.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
-public class UserControllerTest extends Demo7ApplicationTests {
+public class UserControllerTest extends Demo8ApplicationTests {
 
     @Test
     public void get() {
