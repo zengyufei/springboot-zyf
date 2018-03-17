@@ -36,7 +36,7 @@ spring:
 
 # mynatis配置
 mybatis:
-  type-aliases-package: com.zyf.springboot.entity
+  type-aliases-package: com.zyf.springboot.entity,com.zyf.springboot.vo
   # mapper加载路径
   mapper-locations: classpath:mapper/**/**Mapper.xml
   # myatbis配置文件

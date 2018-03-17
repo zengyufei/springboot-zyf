@@ -1,5 +1,6 @@
 package com.zyf.springboot.entity.sys;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.zyf.springboot.base.BaseEntity;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public class UserLogin extends BaseEntity {
      */
     private Integer type;
     private String typeName;
+
+    @JSONField(serialize = false)
     private List<Integer> typeList;
 
     /**

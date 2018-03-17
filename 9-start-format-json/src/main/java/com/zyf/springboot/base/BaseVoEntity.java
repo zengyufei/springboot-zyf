@@ -1,18 +1,18 @@
 package com.zyf.springboot.base;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.alibaba.fastjson.annotation.JSONField;
 
 public class BaseVoEntity {
 
     /**
      * 当前页
      */
-    @JsonIgnore
+    @JSONField(serialize = false)
     private int pageIndex;
     /**
      * 分页大小
      */
-    @JsonIgnore
+    @JSONField(serialize = false)
     private int pageSize;
 
     public int getPageIndex() {

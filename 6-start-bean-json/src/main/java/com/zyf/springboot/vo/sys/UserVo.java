@@ -55,12 +55,12 @@ public class UserVo extends BaseVoEntity {
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd hh:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd hh:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     public Integer getId() {
