@@ -31,13 +31,13 @@
 
     <select id="count" resultType="java.lang.Integer" parameterType="map">
         select count(*) from user as u
-        left join user_login as on ul u.id = ul.user_id
+        left join user_login as ul on u.id = ul.user_id
         <include refid="query_where_condition"/>
     </select>
 
     <sql id="query_where_condition">
         <where>
-            <if test="userVo.realName != null and userVo.realName != '' ">and real_name = #{userVo.realName}</if>
+            <if test="userVo.realName != null and userVo.realName != '' ">and u.real_name = #{userVo.realName}</if>
             <if test="userVo.age != null">and u.age = #{userVo.age}</if>
             <if test="userVo.sex != null">and u.sex = #{userVo.sex}</if>
         </where>

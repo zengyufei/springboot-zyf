@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserVoMapper {
 
     @ResultMap("userVoMap")
-    @Select("select * from user as u left join user_login as ul on u.id = ul.user_id")
+    @Select("select * from user as u left join user_login as ul on u.id = ul.user_id where u.id = #{id}")
     UserVo get(@Param("id") Object id);
 
     List<UserVo> list(@Param("userVo") UserVo userVo);
