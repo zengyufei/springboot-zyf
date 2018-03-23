@@ -1,0 +1,16 @@
+server:
+  port: 8081 # 运行端口
+  max-http-header-size: 65535 # url最大限制
+  session:
+    timeout: 3600 # session会话超时时间，单位为秒
+  tomcat:
+    uri-encoding: utf-8
+
+logging:
+  # 为什么不配置 logback.xml, 因为 logback.xml 会先 application.properties 加载
+  # 而 logback-spring.xml 会后于 application.yml 加载
+  # 这样我们在 application.yml 文中设置日志文件名称和文件路径才能生效。
+
+  fileDir: d:/logs/ # 日志需要保存的路径
+  level:
+    root: info # 日期级别
