@@ -1,5 +1,6 @@
 package com.zyf.springboot.controller.sys;
 
+import com.google.common.base.Splitter;
 import com.zyf.springboot.Demo20ApplicationTests;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
@@ -31,20 +32,20 @@ public class RoleControllerTest extends Demo20ApplicationTests {
 
     @Test
     public void add() {
-        Map<String, Object> args = getJsonParams();
-        args.put("roleName", "系统管理员");
-        args.put("parentId", "1");
-        args.put("description", "这是一种管理员角色");
+        String input = "roleName=系统管理员,parentId=1,description=这是一种管理员角色";
+        Map<String, String> args = Splitter.on(",")
+                .withKeyValueSeparator("=")
+                .split(input);
         ResponseEntity<String> response = postJson("role", args);
         System.out.println(response.getBody());
     }
 
     @Test
     public void update() {
-        Map<String, Object> args = getJsonParams();
-        args.put("roleName", "系统管理员");
-        args.put("parentId", "1");
-        args.put("description", "管理员角色");
+        String input = "id=1,roleName=系统管理员,parentId=1,description=管理员角色";
+        Map<String, String> args = Splitter.on(",")
+                .withKeyValueSeparator("=")
+                .split(input);
         ResponseEntity<String> response = put("role", args);
         System.out.println(response.getBody());
     }

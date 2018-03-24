@@ -86,8 +86,8 @@ public class Demo20ApplicationTests {
                 uriVariables);
     }
 
-    protected ResponseEntity<String> put(String uri, Map<String, Object> args) {
-        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(args, jsonHeaders);
+    protected ResponseEntity<String> put(String uri, Map<String, ?> args) {
+        HttpEntity<Map<String, ?>> requestEntity = new HttpEntity<>(args, jsonHeaders);
         return restTemplateWithCookies.exchange(
                 getHost(uri),
                 HttpMethod.PUT,
@@ -104,11 +104,11 @@ public class Demo20ApplicationTests {
         return restTemplateWithCookies.postForEntity(getHost(uri), requestEntity, clazz);
     }
 
-    protected ResponseEntity<String> postJson(String uri, Map<String, Object> args) {
+    protected ResponseEntity<String> postJson(String uri, Map<String, ?> args) {
         return postJson(uri, args, String.class);
     }
 
-    protected <T> ResponseEntity<T> postJson(String uri, Map<String, Object> args, Class<T> clazz) {
+    protected <T> ResponseEntity<T> postJson(String uri, Map<String, ?> args, Class<T> clazz) {
         HttpEntity<?> requestEntity = new HttpEntity<>(args, jsonHeaders);
         return restTemplateWithCookies.postForEntity(getHost(uri), requestEntity, clazz);
     }

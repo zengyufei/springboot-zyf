@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.enums.FieldFill;
 import com.baomidou.mybatisplus.mapper.SqlCondition;
 import com.zyf.springboot.base.PO;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class Role extends PO<Role, Integer> {
      */
     private Boolean enable;
     @TableField(fill = FieldFill.INSERT)
-    private String enableTime;
+    private Date enableTime;
 
     public String getRoleName() {
         return roleName;
@@ -83,11 +84,11 @@ public class Role extends PO<Role, Integer> {
         this.enable = enable;
     }
 
-    public String getEnableTime() {
+    public Date getEnableTime() {
         return enableTime;
     }
 
-    public void setEnableTime(String enableTime) {
+    public void setEnableTime(Date enableTime) {
         this.enableTime = enableTime;
     }
 }

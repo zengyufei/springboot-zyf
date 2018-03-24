@@ -1,5 +1,6 @@
 package com.zyf.springboot.controller.sys;
 
+import com.google.common.base.Splitter;
 import com.zyf.springboot.Demo20ApplicationTests;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
@@ -33,25 +34,20 @@ public class UserControllerTest extends Demo20ApplicationTests {
 
     @Test
     public void add() {
-        Map<String, Object> args = getJsonParams();
-        args.put("realName", "管理员");
-        args.put("age", 11);
-        args.put("sex", 0);
-        args.put("username", "admin");
-        args.put("password", "admin");
+        String input = "realName=管理员,age=11,sex=0,username=admin,password=admin";
+        Map<String, String> args = Splitter.on(",")
+                .withKeyValueSeparator("=")
+                .split(input);
         ResponseEntity<String> response = postJson("user", args);
         System.out.println(response.getBody());
     }
 
     @Test
     public void update() {
-        Map<String, Object> args = getJsonParams();
-        args.put("id", 1);
-        args.put("realName", "管理员2号");
-        args.put("age", 99);
-        args.put("sex", 1);
-        args.put("username", "admin2");
-        args.put("password", "admin2");
+        String input = "id=1,realName=管理员2号,age=99,sex=1,username=test,password=test";
+        Map<String, String> args = Splitter.on(",")
+                .withKeyValueSeparator("=")
+                .split(input);
         ResponseEntity<String> response = put("user", args);
         System.out.println(response.getBody());
     }
