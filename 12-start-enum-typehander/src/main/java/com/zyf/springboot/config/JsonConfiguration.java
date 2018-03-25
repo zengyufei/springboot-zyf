@@ -24,7 +24,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Configuration
-@ConditionalOnClass({FastJsonHttpMessageConverter.class})
+@ConditionalOnClass({FastJsonHttpMessageConverter.class, WebMvcConfigurerAdapter.class})
 public class JsonConfiguration {
 
     static {
@@ -41,7 +41,7 @@ public class JsonConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean({FastJsonHttpMessageConverter.class})
+    @ConditionalOnMissingBean({FastJsonHttpMessageConverter.class, WebMvcConfigurerAdapter.class})
     public HttpMessageConverters fastJsonHttpMessageConverters() {
         //1.需要定义一个convert转换消息的对象;
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();

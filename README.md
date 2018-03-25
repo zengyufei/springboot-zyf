@@ -23,6 +23,10 @@ part.17  一次大的重构，清除无用代码
 part.18  添加公共的基类，包括 Controller、Serivce 和 ServiceImpl，提供大量的复用基础 CURD 方法，区分 PO 和 VO   
 part.19  PO 转 VO  或 VO 转 PO 使用 BeanUtils，性能不好且写法复杂，使用 Orika 替换 BeanUtils   
 part.20  开始新增 rbac 相关实体 [user, role, resource]，并且完成关联关系查询，基本 CURD 完整
+part.21  开始添加静态资源，首先新增 login.html 一个页面，以及调整后台登录接口位置。
+part.22  针对 part.14 修复 addJSONKey 功能，解决多层嵌套无法添加 json key 的问题，同时删除 JSON.java
+part.23  添加用户 id 关联查询的 FastJson 注解属性。拥有基本的 web 列表页展示功能，添加主要核心输出类 Msg.java
+part.24  完整的 web 页面 跳转，新增，修改，删除，列表页，分页器等功能
 
 
 ##### 目标
