@@ -1,0 +1,5 @@
+# 加入启动参数 -Dspring.profiles.active=dev 启动该配置
+# 加入启动参数 -Dspring.profiles.active=prod 启动该配置
+spring:
+  profiles:
+    active: dev

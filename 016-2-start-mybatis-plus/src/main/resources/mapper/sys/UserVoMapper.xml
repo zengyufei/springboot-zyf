@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyf.springboot.mapper.sys.UserVoMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" readOnly="true"/>-->
+    <resultMap id="userVoMap" type="com.zyf.springboot.vo.sys.UserVo"/>
+
+    <!-- 列举所有字段 -->
+    <sql id="All_Column">
+        <trim suffixOverrides=",">
+            u.*,
+            ul.user_id,
+            ul.username,
+            ul.password,
+            ul.type,
+            ul.enable,
+            ul.enable_time,
+        </trim>
+    </sql>
+
+    <select id="selectList" resultMap="userVoMap" parameterType="map">
+        select
+        <include refid="All_Column"/>
+        from user as u
+        left join user_login as ul on u.id = ul.user_id
+        <include refid="query_where_condition"/>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="map">
+        select count(*) from user as u
+        left join user_login as ul on u.id = ul.user_id
+        <include refid="query_where_condition"/>
+    </select>
+
+    <sql id="query_where_condition">
+        <where>
+            <if test="userVo.realName != null and userVo.realName != '' ">and u.real_name = #{userVo.realName}</if>
+            <if test="userVo.age != null">and u.age = #{userVo.age}</if>
+            <if test="userVo.sex != null">and u.sex = #{userVo.sex}</if>
+            <if test="userVo.username != null and userVo.username != ''">and ul.username = #{userVo.username}</if>
+            <if test="userVo.password != null and userVo.password != ''">and ul.password = #{userVo.password}</if>
+            <if test="userVo.type != null">and ul.type = #{userVo.type}</if>
+            <if test="userVo.enable != null">and ul.enable = #{userVo.enable}</if>
+        </where>
+    </sql>
+
+</mapper>

@@ -1,0 +1,3 @@
+spring:
+  profiles:
+    include: mapper, 8081 # 引入 application-mapper.yml 配置

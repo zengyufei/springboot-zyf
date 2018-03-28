@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyf.springboot.mapper.sys.UserLoginMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" readOnly="true"/>-->
+    <resultMap id="userLoginMap" type="com.zyf.springboot.entity.sys.UserLogin">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="type" property="type"/>
+        <result column="type_name" property="typeName"/>
+        <result column="enable" property="enable"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 列举所有字段 -->
+    <sql id="All_Column">
+        <trim suffixOverrides=",">
+            id,
+            user_id,
+            username,
+            password,
+            type,
+            type_name,
+            enable,
+            create_time,
+            update_time,
+        </trim>
+    </sql>
+
+    <select id="list" resultMap="userLoginMap" parameterType="map">
+        select
+        <include refid="All_Column"/>
+        from user_login
+        <include refid="query_where_condition"/>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" parameterType="map">
+        select count(*) from user_login
+        <include refid="query_where_condition"/>
+    </select>
+
+    <insert id="add" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+        insert into user_login
+        <trim suffixOverrides="," prefix="(" suffix=")">
+            user_id,
+            username,
+            password,
+            type,
+            type_name,
+            enable,
+            create_time,
+            update_time,
+        </trim>
+        values
+        <trim suffixOverrides="," prefix="(" suffix=")">
+            #{userId},
+            #{username},
+            #{password},
+            #{type},
+            #{typeName},
+            #{enable},
+            now(),
+            now(),
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="map">
+        update user_login set update_time = now(),
+        <trim suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="enable != null">enable = #{enable},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <sql id="query_where_condition">
+        <where>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="username != null and username != ''">and username = #{username}</if>
+            <if test="password != null and password != ''">and password = #{password}</if>
+            <if test="type != null">and type = #{type}</if>
+        </where>
+    </sql>
+
+</mapper>

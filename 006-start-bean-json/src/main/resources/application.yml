@@ -1,0 +1,17 @@
+server:
+  port: 8081 # 运行端口
+  max-http-header-size: 65535 # url最大限制
+  session:
+    timeout: 3600 # session会话超时时间，单位为秒
+  tomcat:
+    uri-encoding: utf-8
+
+logging:
+  level:
+    org:
+      springframework : INFO
+
+sprin:
+  http:
+    converters:
+      preferred-json-mapper: fastjson
