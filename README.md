@@ -10,7 +10,7 @@ part.5 修改 UserController 为 restfull 返回方式
 part.6 新增实体封装数据，并通过 UserController 返回成 JSON   
 part.7 接收前端日期型数据，并转换成实体的 Date 类型或其他类型   
 part.8 集成 Mybatis   
-part.9 将消息转换器换成 FastJson 即 @ResponseBody 采用 FastJson 来处理   
+part.9 将消息转换器换成 FastJson 即 @RequestBody/@ResponseBody 采用 FastJson 来处理   
 part.10 设置 Spring 的环境配置，根据不同的环境选择不同的配置   
 part.11 设置日志配置，可控制打印控制台，控制写入文件，指定文件存放路径，指定日志级别   
 part.12 手动处理枚举类型持久化时的转换问题   
@@ -26,12 +26,13 @@ part.20  开始新增 rbac 相关实体 [user, role, resource]，并且完成关
 part.21  开始添加静态资源，首先新增 login.html 一个页面，以及调整后台登录接口位置。   
 part.22  针对 part.14 修复 addJSONKey 功能，解决多层嵌套无法添加 json key 的问题，同时删除 JSON.java   
 part.23  添加用户 id 关联查询的 FastJson 注解属性。拥有基本的 web 列表页展示功能，添加主要核心输出类 Msg.java   
-part.24  完整的 web 页面 跳转，新增，修改，删除，列表页，分页器等功能   
+part.24  完整的 web 页面 跳转，新增，修改，删除，列表页，分页器等功能 ，但是并未处理关联关系。   
+part.25  处理 userRole、 roleResource，以及 resource 与 resource 上下级 的关联，数据库改动大。可以通过前端完成关联设置。   
 
 
 ##### 目标
- - 基础设施
- - 权限管理
+ - 基础设施 [ 基本完成 ]
+ - 权限管理 [ 进行中 ]
  - maven 模块化
  - 前后端分离
  - 多数据源
