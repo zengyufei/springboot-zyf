@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="zengyufei"/>
+    <title>资源列表页</title>
+
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/utils.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var del = function (uri) {
+            $.ajax({
+                type: 'DELETE',
+                url: uri,
+                success: function (result) {
+                    console.log(result);
+                    if (result.success) {
+                        toUrl('/sys/resource.html');
+                    }
+                },
+                dataType: 'json',
+            });
+        };
+
+        function getList(uri, pageIndex) {
+            var requestSuccess = function (result) {
+                console.log(result);
+                if (result.success === true) {
+                    var records = result.data.records;
+                    var tbody = $('#resource_tbody');
+                    tbody.empty();
+                    for (index in records) {
+                        var resource = records[index];
+                        console.log(resource);
+
+                        var tr = createTR();
+                        tbody.append(tr);
+
+                        tr.append(appendTD(resource.id));
+                        tr.append(appendTD(resource.resourceName));
+                        tr.append(appendTD(resource.permission));
+                        tr.append(appendTD(resource.levelName));
+                        tr.append(appendTD(resource.hrefUrl));
+                        tr.append(appendTD(resource.iconUrl));
+                        tr.append(appendTD(resource.enable ? '否' : '是'));
+                        tr.append(appendTD(resource.deleteFlag ? '否' : '是'));
+                        tr.append(appendTD(resource.createName));
+                        tr.append(appendTD(resource.updateName));
+                        tr.append(appendTD(resource.createTime));
+                        tr.append(appendTD(resource.updateTime));
+                        tr.append(appendTD(resource.version));
+                        tr.append(appendTD(resource.enableTime));
+
+                        tr.append(appendTD('<input type="button" id="update" value="修改" onclick="toUrl(\'/sys/addOrUpdateResource.html?id=' + resource.id + '\' )"/>' +
+                            '<input type="button" id="delete" value="删除" onclick="del(\'/resource/' + resource.id + '\')"/>'));
+
+                    }
+                    // 分页器
+                    const pageParams = {
+                        id: 'pageDiv',
+                        page: result.data,
+                        onclick: 'getList(\'' + uri + '\', %s)',
+                    };
+                    page(pageParams);
+                }
+            };
+            const requestError = function (result) {
+                alert('查询失败');
+            };
+            $.get(uri, {pageIndex: pageIndex}, requestSuccess, 'json').error(requestError);
+        }
+
+        $(function () {
+            getList('/resource', 1);
+        });
+    </script>
+    <style>
+        .inline {
+            display: inline-block;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div style="height: 40px;">
+    <div style="float: left;">
+        <input type="button" value="跳转到用户列表页面" onclick="toUrl('/sys/user.html')"/>
+        <input type="button" value="跳转到角色列表页面" onclick="toUrl('/sys/role.html')"/>
+    </div>
+    <div style="float: right;">
+        <input type="button" value="退出登录" onclick="toUrl('/login.html')"/>
+    </div>
+</div>
+<div style="height: 40px;">
+    <input type="button" value="新增" onclick="toUrl('/sys/addOrUpdateResource.html')"/>
+</div>
+<div id="test" style="width: 1280px;">
+    <table id="resource_table" border="1px solid #000">
+        <thead>
+        <th>主键</th>
+        <th>资源名称</th>
+        <th>权限标识</th>
+        <th>等级</th>
+        <th>链接</th>
+        <th>图标</th>
+        <th>禁用</th>
+        <th>删除状态</th>
+        <th>创建者</th>
+        <th>修改者</th>
+        <th>创建时间</th>
+        <th>修改时间</th>
+        <th>版本</th>
+        <th>禁用时间</th>
+        <th>操作</th>
+        </thead>
+        <tbody id="resource_tbody"></tbody>
+    </table>
+    <div id="pageDiv"></div>
+</div>
+
+</body>
+</html>

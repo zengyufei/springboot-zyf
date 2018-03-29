@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyf.springboot.mapper.sys.ResourceMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" readOnly="true"/>-->
+    <resultMap id="resourceMap" type="com.zyf.springboot.entity.sys.Resource"></resultMap>
+
+    <select id="selectAllParent" parameterType="int" resultMap="resourceMap">
+        SELECT DATA.* FROM(
+        SELECT
+        @id as _id,
+        ( SELECT @id := parent_id
+        FROM resource
+        WHERE id = @id
+        ) as _pid
+        FROM resource,
+        (SELECT @id := #{id}) b
+        WHERE @id &gt; 0
+        ) ID, resource DATA
+        WHERE ID._id = DATA.id and DATA.id != #{id}
+    </select>
+</mapper>

@@ -1,10 +1,3 @@
-/**
- * Copyright (C): 恒大集团©版权所有 Evergrande Group
- * FileName: StringToDateConverter
- * Author:   zengyufei
- * Date:     2017-11-6 19:11
- * Description: 字符串转日期的转换器
- */
 package com.zyf.springboot.config.converters;
 
 import org.apache.commons.lang3.StringUtils;

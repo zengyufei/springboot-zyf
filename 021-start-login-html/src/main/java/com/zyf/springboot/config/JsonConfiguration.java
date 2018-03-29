@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -33,7 +32,7 @@ import java.util.Map;
  * @since 1.0.0
  */
 @Configuration
-@ConditionalOnClass({FastJsonHttpMessageConverter.class, WebMvcConfigurerAdapter.class})
+@ConditionalOnClass({FastJsonHttpMessageConverter.class})
 public class JsonConfiguration {
 
     static {
@@ -54,7 +53,7 @@ public class JsonConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean({FastJsonHttpMessageConverter.class, WebMvcConfigurerAdapter.class})
+    @ConditionalOnMissingBean({FastJsonHttpMessageConverter.class})
     public HttpMessageConverters fastJsonHttpMessageConverters() {
         //1.需要定义一个convert转换消息的对象;
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="zengyufei"/>
+    <title>新增修改角色页</title>
+
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/utils.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            var id = getUrlParam('id');
+            var isUpdate = id !== null;
+
+            if (isUpdate) {
+                $('h1').text('修改角色');
+                $('#form input').removeAttr('onmouseenter');
+                $.get('/role/' + id, function (result) {
+                    var role = result.data;
+                    $('#id').val(role.id);
+                    $('#roleName').val(role.roleName);
+                    $('#description').val(role.description);
+                    $('input[name=\'enable\'][value=\'' + role.enable + '\']').prop('checked', true);
+                    $('input[name=\'deleteFlag\'][value=\'' + role.deleteFlag + '\']').prop('checked', true);
+                    $('#createId').val(role.createId);
+                    $('#createName').val(role.createName);
+                    $('#updateId').val(role.updateId);
+                    $('#updateName').val(role.updateName);
+                    $('#createTime').val(role.createTime);
+                    $('#updateTime').val(role.updateTime);
+                    $('#version').val(role.version);
+                    $('#enableTime').val(role.enableTime);
+
+                    $('#createName').show();
+                    $('#updateName').show();
+                }, 'json');
+            } else {
+                $('h1').text('新增角色');
+                var sexIndex = getNumber(0, 2);
+                var sexDom = $('input[name=\'sex\']');
+                sexDom.prop('checked', false);
+                $(sexDom.get(sexIndex)).prop('checked', true);
+
+                var typeIndex = getNumber(0, 3);
+                var typeDom = $('input[name=\'type\']');
+                typeDom.prop('checked', false);
+                $(typeDom.get(typeIndex)).prop('checked', true);
+            }
+
+            $('#submitBtn').click(function () {
+                var params = formToJson($('#form').serialize());
+                var temp = JSON.parse(params);
+                temp.type = +temp.type;
+                temp.sex = +temp.sex;
+                params = JSON.stringify(temp);
+                console.log(params);
+                $.ajax({
+                    type: isUpdate ? 'PUT' : 'POST',
+                    url: '/role',
+                    contentType: 'application/json;charset=utf-8',
+                    data: params,
+                    success: function (result) {
+                        if (result.success) {
+                            toUrl('/sys/role.html');
+                        }
+                    },
+                    dataType: 'json',
+                });
+            });
+        });
+
+
+    </script>
+    <style>
+        #form div div {
+            display: inline-block;
+            width: 100px;
+        }
+
+        .inline {
+            display: inline-block;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div style="height: 40px;">
+    <div style="float: right;">
+        <input type="button" value="退出登录" onclick="toUrl('/login.html')"/>
+    </div>
+</div>
+
+<div id="test">
+    <h1>新增或修改角色</h1>
+    <form id="form" onsubmit="return false">
+        <div>
+            <input type="hidden" id="id" name="id" value="0"/>
+        </div>
+        <div>
+            <div>角色名称:</div>
+            <input type="text" id="roleName" name="roleName" value="" onmouseenter="this.value = getText();"/>
+        </div>
+        <div>
+            <div>描述:</div>
+            <input type="text" id="description" name="description" onmouseenter="this.value = getText();"/>
+        </div>
+        <div>
+            <div>禁用:</div>
+            否<input type="radio" name="enable" value="1" checked>
+            是<input type="radio" name="enable" value="0">
+        </div>
+        <div>
+            <div>删除状态:</div>
+            否<input type="radio" name="deleteFlag" value="1" checked>
+            是<input type="radio" name="deleteFlag" value="0">
+        </div>
+        <div>
+            <div>创建者:</div>
+            <input type="text" id="createId" name="createId" onmouseenter="this.value = getNumber(1, 1);"/>
+            <input type="text" id="createName" name="createName" class="hide" onmouseenter="this.value = getText()"
+                   readonly/>
+        </div>
+        <div>
+            <div>修改者:</div>
+            <input type="text" id="updateId" name="updateId" onmouseenter="this.value = getNumber(1, 1);"/>
+            <input type="text" id="updateName" name="updateName" class="hide" onmouseenter="this.value = getText()"
+                   readonly/>
+        </div>
+        <div>
+            <div>版本:</div>
+            <input type="text" id="version" name="version" onmouseenter="this.value = getNumber(1, 99);"/>
+        </div>
+        <div>
+            <div>禁用时间:</div>
+            <input type="text" id="enableTime" name="enableTime" onmouseenter="this.value = getDate();"/>
+        </div>
+        <!-- <div>
+             <div>角色:</div>
+             <input type="text" name="role" onmouseenter="this.value = getText();"/>
+         </div>-->
+        <div class="inline">
+            <input type="button" value="提交" id="submitBtn"/>
+        </div>
+        <div class="inline">
+            <input type="button" value="返回" onclick="toUrl('/sys/role.html')"/>
+        </div>
+    </form>
+</div>
+</body>
+</html>
