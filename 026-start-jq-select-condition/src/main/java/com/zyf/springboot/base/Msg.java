@@ -1,6 +1,8 @@
 package com.zyf.springboot.base;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 消息传输类。结果返回集。
@@ -90,13 +92,14 @@ public class Msg<T> {
 
         @Override
         public String toString() {
-            if (invalidData == null)
+            if (this.invalidData == null) {
                 return "";
-            return invalidData.toString();
+            }
+            return this.invalidData.toString();
         }
 
         public String toJson() {
-            return JSONObject.toJSONString(invalidData);
+            return JSONObject.toJSONString(this.invalidData);
         }
 
     }
@@ -235,7 +238,13 @@ public class Msg<T> {
 
     @Override
     public String toString() {
-        return JSONObject.toJSONString(this);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }

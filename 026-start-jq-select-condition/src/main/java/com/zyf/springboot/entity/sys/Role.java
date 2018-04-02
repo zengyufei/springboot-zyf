@@ -19,7 +19,7 @@ public class Role extends PO<Role, Integer> {
     /**
      * 角色名称
      */
-    @TableField(condition = SqlCondition.LIKE_LEFT)
+    @TableField(condition = SqlCondition.LIKE_RIGHT)
     private String roleName;
 
     /**

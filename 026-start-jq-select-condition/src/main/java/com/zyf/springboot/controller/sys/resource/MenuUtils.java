@@ -1,5 +1,7 @@
 package com.zyf.springboot.controller.sys.resource;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.zyf.springboot.entity.sys.Resource;
 
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class MenuUtils {
             Menu menu = new Menu(resource);
             // 遍历所有节点，将所有菜单的父id与传过来的根节点的id比较
             //相等说明：为该根节点的子节点。
-            if (menu.getParentId().equals(id)) {
+            if (ObjectUtil.equal(menu.getParentId(), id)) {
                 childList.add(menu);
             }
         }
@@ -61,7 +63,7 @@ public class MenuUtils {
         //排序
         Collections.sort(childList, order());
         //如果节点下没有子节点，返回一个空List（递归退出）
-        if (childList.size() == 0) {
+        if (CollUtil.isEmpty(childList)) {
             return new ArrayList<>();
         }
         return childList;
@@ -74,7 +76,7 @@ public class MenuUtils {
         return (o1, o2) -> {
             if (o1.getSort() > o2.getSort()) {
                 return 1;
-            } else if (o1.getSort().equals(o2.getSort())) {
+            } else if (ObjectUtil.equal(o1.getSort(), o2.getSort())) {
                 return 0;
             } else {
                 return -1;

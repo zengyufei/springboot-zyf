@@ -8,4 +8,7 @@ import java.util.List;
 public interface ResourceMapper extends BaseMapper<Resource> {
 
     List<Resource> selectAllParent(Integer id);
+
+    List<Resource> selectAllChildren(Integer id);
+
 }

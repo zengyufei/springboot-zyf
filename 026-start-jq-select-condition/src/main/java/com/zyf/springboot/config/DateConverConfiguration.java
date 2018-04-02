@@ -35,7 +35,7 @@ public class DateConverConfiguration extends WebMvcConfigurerAdapter {
     public void initEditableValidation() {
         ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) this.handlerAdapter
                 .getWebBindingInitializer();
-        if (initializer.getConversionService() != null) {
+        if (null != initializer.getConversionService()) {
             GenericConversionService genericConversionService = (GenericConversionService) initializer
                     .getConversionService();
             //genericConversionService.addConverter(new StringToIntegerConverter());

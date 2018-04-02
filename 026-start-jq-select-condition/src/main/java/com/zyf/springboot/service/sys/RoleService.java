@@ -12,4 +12,6 @@ public interface RoleService extends AbstractServiceVo<Role, RoleVo> {
     Msg updateRole(RoleVo roleVo);
 
     Msg deleteRole(Integer id);
+
+    Msg list(RoleVo roleVo);
 }

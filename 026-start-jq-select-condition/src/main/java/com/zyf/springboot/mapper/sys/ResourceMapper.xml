@@ -13,9 +13,25 @@
         WHERE id = @id
         ) as _pid
         FROM resource,
-        (SELECT @id := #{id}) b
+        (SELECT @id := ${id}) b
         WHERE @id &gt; 0
         ) ID, resource DATA
-        WHERE ID._id = DATA.id and DATA.id != #{id}
+        WHERE ID._id = DATA.id and DATA.id != ${id}
+    </select>
+
+    <select id="selectAllChildren" parameterType="int" resultMap="resourceMap">
+        SELECT r.* FROM(
+        SELECT
+        @ids as _ids,
+        ( SELECT @ids := GROUP_CONCAT(id)
+        FROM resource
+        WHERE FIND_IN_SET(parent_id, @ids)
+        ) as cids
+        FROM resource,
+        (SELECT @ids :=${id}) b
+        WHERE @ids IS NOT NULL
+        ) all_id, resource r
+        WHERE FIND_IN_SET(r.id, all_id._ids) and `r`.id != ${id}
+        ORDER BY sort
     </select>
 </mapper>

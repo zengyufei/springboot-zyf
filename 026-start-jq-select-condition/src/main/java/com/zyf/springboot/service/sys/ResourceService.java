@@ -15,4 +15,5 @@ public interface ResourceService extends AbstractServiceVo<Resource, ResourceVo>
 
     Msg tree();
 
+    Msg list(ResourceVo resourceVo);
 }

@@ -1,5 +1,6 @@
 package com.zyf.springboot.service.sys.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.google.common.collect.Lists;
@@ -15,10 +16,10 @@ import com.zyf.springboot.vo.sys.ResourceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -31,10 +32,10 @@ public class RoleResourceServiceImpl extends AbstractServiceImpl<RoleResourceMap
 
     @Override
     public List<ResourceVo> selectResourceVoList(Integer roleId) {
+        Wrapper<ResourceVo> wrapper = new EntityWrapper<>();
         List<RoleResource> userRoles = this.baseMapper.selectList(getWrapper(new RoleResource(roleId)));
-        List<Integer> resourceIds = userRoles.stream().map(RoleResource::getResourceId).collect(Collectors.toList());
-        if (!CollectionUtils.isEmpty(resourceIds)) {
-            Wrapper<ResourceVo> wrapper = new EntityWrapper<>();
+        List<Object> resourceIds = CollUtil.getFieldValues(userRoles, "resourceId");
+        if (CollUtil.isNotEmpty(resourceIds)) {
             wrapper.setSqlSelect("id")
                     .in("id", resourceIds)
                     .orderDesc(Collections.singleton("parent_id"));
@@ -45,18 +46,17 @@ public class RoleResourceServiceImpl extends AbstractServiceImpl<RoleResourceMap
 
     @Override
     public boolean deleteRoleResourceByRoleId(Integer roleId) {
-        Integer effect = this.baseMapper.delete(getWrapper(new RoleResource(roleId)));
-        return effect > 0;
+        return this.baseMapper.delete(getWrapper(new RoleResource(roleId))) > 0;
     }
 
     @Override
     public Msg updateRoleResource(List<RoleResource> roleResources) {
         String ok = "更新用户权限成功！";
         String error = "更新用户权限失败！";
-        if (roleResources != null && !roleResources.isEmpty()) {
+        if (CollUtil.isNotEmpty(roleResources)) {
             Integer roleId = roleResources.get(0).getRoleId();
 
-            Set<RoleResource> newRoleResources = new HashSet<>(roleResources);
+            Set<RoleResource> newRoleResources = CollUtil.newHashSet(roleResources);
             for (RoleResource roleResource : roleResources) {
                 Integer resourceId = roleResource.getResourceId();
                 /*
@@ -71,8 +71,7 @@ public class RoleResourceServiceImpl extends AbstractServiceImpl<RoleResourceMap
              * 先删除角色所有权限，再新增角色权限
              */
             this.deleteRoleResourceByRoleId(roleId);
-            boolean insertOrUpdate = this.insertOrUpdateBatch(new ArrayList<>(newRoleResources));
-            if (insertOrUpdate) {
+            if (this.insertOrUpdateBatch(CollUtil.newArrayList(newRoleResources))) {
                 this.log.info(ok);
                 return Msg.ok(ok);
             } else {

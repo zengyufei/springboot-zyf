@@ -1,12 +1,13 @@
 package com.zyf.springboot.base;
 
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableLogic;
 import com.baomidou.mybatisplus.annotations.Version;
 import com.baomidou.mybatisplus.enums.FieldFill;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zyf.springboot.config.json.AddCreateIdName;
 import com.zyf.springboot.config.json.AddUpdateIdName;
 
@@ -109,7 +110,13 @@ public class PO<T, PK extends Serializable> extends Model {
 
     @Override
     public String toString() {
-        return JSONObject.toJSONString(this);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     @Override

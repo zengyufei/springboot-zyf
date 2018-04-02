@@ -1,5 +1,6 @@
 package com.zyf.springboot.utils;
 
+import cn.hutool.core.collection.CollUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -27,26 +28,26 @@ public class RestTemplateWithCookies extends RestTemplate {
     }
 
     public synchronized List<HttpCookie> getCoookies() {
-        return cookies;
+        return this.cookies;
     }
 
     public synchronized void resetCoookies() {
-        cookies.clear();
+        this.cookies.clear();
     }
 
     private void processHeaders(HttpHeaders headers) {
         final List<String> cooks = headers.get("Set-Cookie");
-        if (cooks != null && !cooks.isEmpty()) {
+        if (CollUtil.isNotEmpty(cooks)) {
             cooks.stream().map((c) -> HttpCookie.parse(c)).forEachOrdered((cook) -> {
                 cook.forEach((a) -> {
-                    HttpCookie cookieExists = cookies.stream()
+                    HttpCookie cookieExists = this.cookies.stream()
                             .filter(x -> a.getName().equals(x.getName()))
                             .findAny()
                             .orElse(null);
                     if (cookieExists != null) {
-                        cookies.remove(cookieExists);
+                        this.cookies.remove(cookieExists);
                     }
-                    cookies.add(a);
+                    this.cookies.add(a);
                 });
             });
         }

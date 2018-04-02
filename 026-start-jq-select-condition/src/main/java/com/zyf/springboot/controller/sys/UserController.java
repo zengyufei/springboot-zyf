@@ -1,6 +1,5 @@
 package com.zyf.springboot.controller.sys;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import com.zyf.springboot.base.Msg;
 import com.zyf.springboot.base.mvc.AbstractControllerVo;
 import com.zyf.springboot.entity.sys.User;
@@ -39,17 +38,7 @@ public class UserController extends AbstractControllerVo<User, UserVo> {
 
     @PostMapping("list")
     public Msg list(@RequestBody UserVo userVo) {
-        Page<UserVo> userVoPage = this.service.selectVoPage(
-                new Page<>(userVo.getPageIndex(), userVo.getPageSize()),
-                getWrapper(userVo)
-        );
-
-        /* 关联 role */
-        for (UserVo user : userVoPage.getRecords()) {
-            List<RoleVo> roleVos = this.userRoleService.selectRoleVoList(user.getId());
-            user.setRoleVos(roleVos);
-        }
-        return Msg.ok(userVoPage);
+        return this.userService.selectUserPage(userVo);
     }
 
     @PostMapping

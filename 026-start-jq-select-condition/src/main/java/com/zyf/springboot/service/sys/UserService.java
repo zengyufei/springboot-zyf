@@ -14,4 +14,6 @@ public interface UserService extends AbstractServiceVo<User, UserVo> {
     Msg updateUser(UserVo userVo);
 
     Msg deleteUser(Integer id);
+
+    Msg selectUserPage(UserVo userVo);
 }

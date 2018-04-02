@@ -1,7 +1,6 @@
 package com.zyf.springboot.controller.sys;
 
 import com.baomidou.mybatisplus.mapper.Condition;
-import com.baomidou.mybatisplus.plugins.Page;
 import com.zyf.springboot.base.Msg;
 import com.zyf.springboot.base.mvc.AbstractControllerVo;
 import com.zyf.springboot.entity.sys.Resource;
@@ -30,13 +29,9 @@ public class ResourceController extends AbstractControllerVo<Resource, ResourceV
         return Msg.ok(resourceVo);
     }
 
-    @GetMapping
-    public Msg list(ResourceVo resourceVo) {
-        Page<ResourceVo> resourceVoPage = this.service.selectVoPage(
-                new Page<>(resourceVo.getPageIndex(), resourceVo.getPageSize()),
-                getWrapper(resourceVo)
-        );
-        return Msg.ok(resourceVoPage);
+    @PostMapping("list")
+    public Msg list(@RequestBody ResourceVo resourceVo) {
+        return this.resourceService.list(resourceVo);
     }
 
     @GetMapping("all/{level}")

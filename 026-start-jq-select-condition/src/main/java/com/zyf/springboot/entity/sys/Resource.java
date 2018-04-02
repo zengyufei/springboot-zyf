@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.enums.FieldFill;
 import com.baomidou.mybatisplus.mapper.SqlCondition;
 import com.zyf.springboot.base.PO;
-import com.zyf.springboot.config.json.AddEnumTypeName;
 import com.zyf.springboot.enums.LevelType;
 
 import java.util.Date;
@@ -21,13 +20,12 @@ public class Resource extends PO<Resource, Integer> {
     /**
      * 角色名称
      */
-    @TableField(condition = SqlCondition.LIKE_LEFT)
+    @TableField(condition = SqlCondition.LIKE_RIGHT)
     private String resourceName;
 
     /**
      * 等级
      */
-    @JSONField(serializeUsing = AddEnumTypeName.class)
     private LevelType level;
 
     /**
@@ -41,6 +39,7 @@ public class Resource extends PO<Resource, Integer> {
     /**
      * 资源 URL
      */
+    @TableField(condition = SqlCondition.LIKE_RIGHT)
     private String hrefUrl;
 
     /**
@@ -51,6 +50,7 @@ public class Resource extends PO<Resource, Integer> {
     /**
      * 权限标识
      */
+    @TableField(condition = SqlCondition.LIKE_RIGHT)
     private String permission;
 
     /**

@@ -1,7 +1,6 @@
 package com.zyf.springboot.controller.sys;
 
 import com.baomidou.mybatisplus.mapper.Condition;
-import com.baomidou.mybatisplus.plugins.Page;
 import com.zyf.springboot.base.Msg;
 import com.zyf.springboot.base.mvc.AbstractControllerVo;
 import com.zyf.springboot.entity.sys.Role;
@@ -39,13 +38,9 @@ public class RoleController extends AbstractControllerVo<Role, RoleVo> {
         return Msg.ok(roleVo);
     }
 
-    @GetMapping
-    public Msg list(RoleVo roleVo) {
-        Page<RoleVo> roleVoPage = this.service.selectVoPage(
-                new Page<>(roleVo.getPageIndex(), roleVo.getPageSize()),
-                getWrapper(roleVo)
-        );
-        return Msg.ok(roleVoPage);
+    @PostMapping("list")
+    public Msg list(@RequestBody RoleVo roleVo) {
+        return this.roleService.list(roleVo);
     }
 
     @GetMapping("all")

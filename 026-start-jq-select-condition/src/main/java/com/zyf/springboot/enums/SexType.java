@@ -1,42 +1,30 @@
 package com.zyf.springboot.enums;
 
+import com.baomidou.mybatisplus.enums.IEnum;
 import com.zyf.springboot.base.BaseEnum;
+
+import java.io.Serializable;
 
 /**
  * 性别类型枚举
  * @author zengyufei
  * @since 1.0.0
  */
-public enum SexType implements BaseEnum {
+public enum SexType implements BaseEnum, IEnum {
 
     MAN(0, "男"),
     MALE(1, "女");
 
-    private int index;
-    private String mark;
+    Integer index;
+    String mark;
 
-    SexType(int index, String mark) {
+    SexType(Integer index, String mark) {
         this.index = index;
         this.mark = mark;
     }
 
     @Override
-    public int getIndex() {
-        return index;
+    public Serializable getValue() {
+        return this.index;
     }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    @Override
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
-
-
 }

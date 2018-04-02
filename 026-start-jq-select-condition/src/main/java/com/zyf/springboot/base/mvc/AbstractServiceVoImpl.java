@@ -1,6 +1,8 @@
 package com.zyf.springboot.base.mvc;
 
 
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -11,8 +13,6 @@ import com.google.common.reflect.TypeToken;
 import com.zyf.springboot.base.PO;
 import com.zyf.springboot.base.VO;
 import com.zyf.springboot.base.orika.OrikaMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -32,7 +32,7 @@ public abstract class AbstractServiceVoImpl<M extends BaseMapper<T>,
 
     protected Class<V> vClass;
     protected Class<T> tClass;
-    protected Logger log = LoggerFactory.getLogger(getClass());
+    protected final Log log = LogFactory.get();
 
     @Autowired
     protected OrikaMapper orikaMapper;
@@ -52,6 +52,10 @@ public abstract class AbstractServiceVoImpl<M extends BaseMapper<T>,
 
     protected EntityWrapper<V> getWrapper(V v) {
         return new EntityWrapper<>(v);
+    }
+
+    protected EntityWrapper<T> getWrapper(T t) {
+        return new EntityWrapper<>(t);
     }
 
     @Override
@@ -294,7 +298,7 @@ public abstract class AbstractServiceVoImpl<M extends BaseMapper<T>,
     public Page<V> selectVoPage(Page<V> page, Wrapper<V> wrapper) {
         Page<T> page1 = this.orikaMapper.convert(page, Page.class);
         Wrapper<T> entityWrapper = getPoWrapper(wrapper);
-        
+
         Page<T> tPage1 = this.selectPage(page1, entityWrapper);
         page.setTotal(tPage1.getTotal());
         return page.setRecords(this.orikaMapper.convertList(tPage1.getRecords(), this.vClass));

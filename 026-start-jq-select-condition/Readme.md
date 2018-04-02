@@ -1,19 +1,9 @@
-本项目主要作用是处理关联关系（connection relation）
+本项目主要作用是条件查询完善
 
-user 与 role 的 userRole 关系
+这版修改的内容过猛，主要是修改枚举
 
-role 与 resource 的 roleResource 关系
+前端到后端，后端到数据库查询，再从数据库查询到后端，后端再到前端。
 
-resource 与 resource 的 上下级 关系
+这里每个地方都要处理枚举的转换类型。
 
-对数据库表改动最大，请导入本项目数据库脚本。
-
-主要完成：
-  - 新增资源时，设置上下级关系
-  - 角色修改权限
-    - 可修改角色拥有的权限
-  - 根据实际功能，添加必要字段
-
-修改 com.zyf.springboot.config.json.AddEnumTypeName 因为 index 不从0 开始导致的输出不正确的枚举问题。
-
-下一个项目进行条件查询。
+最后是 Controller 查询分页方法从 get 变成 post ，并且移到了服务层 Service ，在 vo 类里放入多条件查询的值，一般为 list，并且在 Service 里拼接条件，这里是可以优化的，利用注解可以完成节省这块代码，因为都是 sql 语句的 in 操作。

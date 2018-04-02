@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="author" content="zengyufei"/>
     <title>资源列表页</title>
-
+    <link href="/css/all.css" rel="stylesheet"/>
     <script src="/js/jquery.min.js" type="text/javascript"></script>
     <script src="/js/utils.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -23,13 +23,41 @@
             });
         };
 
-        function getList(uri, pageIndex) {
-            var requestSuccess = function (result) {
-                console.log(result);
-                if (result.success === true) {
-                    var records = result.data.records;
-                    var tbody = $('#resource_tbody');
-                    tbody.empty();
+         function getListPage(uri, pageIndex) {
+            const params = $('#search_form').serializeJson();
+            params.pageIndex = pageIndex;
+            const obj = {
+                uri,
+                params,
+            };
+            console.log(params)
+            start(obj).then(
+                obj => {
+                    return $.ajax({
+                        type: 'POST',
+                        url: obj.uri,
+                        contentType: 'application/json',
+                        data: JSON.stringify(obj.params),
+                        success: data => data,
+                        dataType: 'json',
+                    });
+                },
+                error => {
+                    alert('查询失败');
+                },
+            ).then(
+                result => {
+                    console.log(result);
+                    if (!result.success) {
+                        return;
+                    }
+
+                    const records = result.data.records;
+                    { // 先清空
+                        var tbody = $('#resource_tbody');
+                        tbody.empty();
+                    }
+
                     for (index in records) {
                         var resource = records[index];
                         console.log(resource);
@@ -60,29 +88,18 @@
                     const pageParams = {
                         id: 'pageDiv',
                         page: result.data,
-                        onclick: 'getList(\'' + uri + '\', %s)',
+                        onclick: 'getListPage(\'' + uri + '\', %s)',
                     };
                     page(pageParams);
-                }
-            };
-            const requestError = function (result) {
-                alert('查询失败');
-            };
-            $.get(uri, {pageIndex: pageIndex}, requestSuccess, 'json').error(requestError);
+                },
+            );
         }
 
         $(function () {
-            getList('/resource', 1);
+            getListPage('/resource/list', 1);
         });
     </script>
     <style>
-        .inline {
-            display: inline-block;
-        }
-
-        .hide {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -98,6 +115,59 @@
 </div>
 <div style="height: 40px;">
     <input type="button" value="新增" onclick="toUrl('/sys/addOrUpdateResource.html')"/>
+</div>
+<div>
+    <form id="search_form">
+        <div class="m-b-10">
+            <div class="inline m-r-10">
+                <div class="inline f-w-b">
+                    资源名称:
+                </div>
+                <input name="resourceName"/>
+            </div>
+            <div class="inline m-r-10">
+                <div class="inline f-w-b">
+                    权限标识:
+                </div>
+                <input name="permission"/>
+            </div>
+            <div class="inline m-r-10">
+                <div class="inline f-w-b">
+                    url:
+                </div>
+                <input name="hrefUrl"/>
+            </div>
+
+            <div class="inline m-r-10">
+                <div class="inline f-w-b">
+                    等级:
+                </div>
+                一级<input type="checkbox" name="levelList" value="1"/>
+                二级<input type="checkbox" name="levelList" value="2"/>
+                三级<input type="checkbox" name="levelList" value="3"/>
+            </div>
+            <div class="inline m-r-10">
+                <div class="inline f-w-b">
+                    禁用:
+                </div>
+                是<input type="checkbox" name="enableList" value="0"/>
+                否<input type="checkbox" name="enableList" value="1"/>
+            </div>
+        </div>
+        <div class="m-b-10 m-t-5">
+            <div class="inline m-r-10">
+                <div class="inline f-w-b">
+                    创建时间大于:
+                </div>
+                <input name="createTimeGt"/>
+                <div class="inline f-w-b">
+                    创建时间小于:
+                </div>
+                <input name="createTimeLt"/>
+            </div>
+            <input type="button" value="搜索" onclick="getListPage('/resource/list', 1)">
+        </div>
+    </form>
 </div>
 <div id="test" style="width: 1280px;">
     <table id="resource_table" border="1px solid #000">

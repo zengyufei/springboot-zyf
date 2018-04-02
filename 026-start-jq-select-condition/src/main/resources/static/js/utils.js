@@ -73,7 +73,7 @@ function isNumber(theObj) {
         var array = this.serializeArray();
         var str = this.serialize();
         $(array).each(function () {
-            if (serializeObj[this.name]) {
+            if (serializeObj[this.name] != void(0)) {
                 if ($.isArray(serializeObj[this.name])) {
                     serializeObj[this.name].push(isNumber(this.value) ? +this.value : this.value);
                 } else {
@@ -83,6 +83,7 @@ function isNumber(theObj) {
                 serializeObj[this.name] = isNumber(this.value) ? +this.value : this.value;
             }
         });
+
         return serializeObj;
     };
 })(jQuery);
