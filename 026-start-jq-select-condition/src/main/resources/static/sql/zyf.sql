@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2018-03-28 15:38:00
+Date: 2018-04-02 22:39:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,12 +37,12 @@ CREATE TABLE `resource` (
   `version` int(11) DEFAULT '0',
   `sort` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of resource
 -- ----------------------------
-INSERT INTO `resource` VALUES ('1', '用户模块', 'sys:user:*', '1', '/user', '/icon/user.png', '0', '1', '2018-03-24 20:58:22', '2018-03-24 20:58:22', '2018-03-24 20:58:22', '1', '1', '1', '0', '0');
+INSERT INTO `resource` VALUES ('1', '用户模块', 'sys:user:*', '1', '/user', '/icon/user.png', '0', '1', '2018-03-24 20:58:22', '2018-03-24 20:58:22', '2018-04-01 09:23:32', '1', '1', '1', '1', '0');
 INSERT INTO `resource` VALUES ('2', '用户新增', 'sys:user:add', '2', '/user', '', '1', '1', '2018-03-24 20:58:22', '2018-03-24 20:58:22', '2018-03-24 20:58:22', '1', '1', '1', '0', '1');
 INSERT INTO `resource` VALUES ('3', '用户修改', 'sys:user:update', '2', '/user', '', '1', '1', '2018-03-24 20:58:22', '2018-03-24 20:58:22', '2018-03-24 20:58:22', '1', '1', '1', '0', '2');
 INSERT INTO `resource` VALUES ('4', '用户删除', 'sys:user:delete', '2', '/user', '', '1', '1', '2018-03-24 20:58:22', '2018-03-24 20:58:22', '2018-03-24 20:58:22', '1', '1', '1', '0', '3');
@@ -91,34 +91,13 @@ CREATE TABLE `role_resource` (
   `delete_flag` tinyint(1) DEFAULT '1',
   `version` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of role_resource
 -- ----------------------------
-INSERT INTO `role_resource` VALUES ('43', '1', '1', '2018-03-28 11:25:45', '2018-03-28 11:25:45', '1', '1', '1', '0');
-INSERT INTO `role_resource` VALUES ('44', '1', '4', '2018-03-28 11:25:45', '2018-03-28 11:25:45', '1', '1', '1', '0');
-
--- ----------------------------
--- Table structure for table1
--- ----------------------------
-DROP TABLE IF EXISTS `table1`;
-CREATE TABLE `table1` (
-  `id` int(11) DEFAULT NULL,
-  `name` varchar(10) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of table1
--- ----------------------------
-INSERT INTO `table1` VALUES ('1', 'Home', '0');
-INSERT INTO `table1` VALUES ('2', 'About', '1');
-INSERT INTO `table1` VALUES ('3', 'Contact', '1');
-INSERT INTO `table1` VALUES ('4', 'Legal', '2');
-INSERT INTO `table1` VALUES ('5', 'Privacy', '4');
-INSERT INTO `table1` VALUES ('6', 'Products', '1');
-INSERT INTO `table1` VALUES ('7', 'Support', '2');
+INSERT INTO `role_resource` VALUES ('46', '1', '1', '2018-03-28 18:22:33', '2018-03-28 18:22:33', '1', '1', '1', '0');
+INSERT INTO `role_resource` VALUES ('47', '1', '3', '2018-03-28 18:22:33', '2018-03-28 18:22:33', '1', '1', '1', '0');
 
 -- ----------------------------
 -- Table structure for test
@@ -131,11 +110,12 @@ CREATE TABLE `test` (
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of test
 -- ----------------------------
+INSERT INTO `test` VALUES ('1', 'test', '1', '2018-03-29 08:50:21', '2018-03-29 08:50:21');
 
 -- ----------------------------
 -- Table structure for user
