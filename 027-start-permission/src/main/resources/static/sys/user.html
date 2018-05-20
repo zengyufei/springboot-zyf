@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="zengyufei"/>
+    <title>用户列表页</title>
+    <link href="/css/all.css" rel="stylesheet"/>
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/utils.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        const del = function (uri) {
+            $.ajax({
+                type: 'DELETE',
+                url: uri,
+                success: function (result) {
+                    console.log(result);
+                    if (result.success) {
+                        toUrl('/sys/user.html');
+                    }
+                },
+                dataType: 'json',
+            });
+        };
+
+        function getListPage(uri, pageIndex) {
+            const params = $('#search_form').serializeJson();
+            params.pageIndex = pageIndex;
+            var roleId = $("#role").prop("value")
+            if(roleId!='') {
+                params.roleVos = {id:roleId}
+            }
+            const obj = {
+                uri,
+                params,
+            };
+            console.log(params)
+            start(obj).then(
+                obj => {
+                    return $.ajax({
+                        type: 'POST',
+                        url: obj.uri,
+                        contentType: 'application/json',
+                        data: JSON.stringify(obj.params),
+                        success: data => data,
+                        dataType: 'json',
+                    });
+                },
+                error => {
+                    alert('查询失败');
+                },
+            ).then(
+                result => {
+                    console.log(result);
+                    if (!result.success) {
+                        return;
+                    }
+
+                    const records = result.data.records;
+                    { // 先清空
+                        var tbody = $('#user_tbody');
+                        tbody.empty();
+                    }
+
+                    for (index in records) {
+                        const user = records[index];
+                        console.log(user);
+
+                        const tr = createTR();
+                        tbody.append(tr);
+
+                        tr.append(appendTD(user.id));
+                        tr.append(appendTD(user.realName));
+                        tr.append(appendTD(user.username));
+                        tr.append(appendTD(user.sexName));
+                        tr.append(appendTD(user.typeName));
+                        tr.append(appendTD(user.age));
+                        tr.append(appendTD(user.enable ? '否' : '是'));
+                        tr.append(appendTD(user.deleteFlag ? '否' : '是'));
+                        tr.append(appendTD(user.createName));
+                        tr.append(appendTD(user.updateName));
+                        tr.append(appendTD(user.createTime));
+                        tr.append(appendTD(user.updateTime));
+                        tr.append(appendTD(user.version));
+                        tr.append(appendTD(user.enableTime));
+
+                        const roles = user.roleVos;
+                        const outRoles = [];
+                        for (i in roles) {
+                            const roleName = roles[i].roleName;
+                            outRoles.push(roleName);
+                        }
+                        tr.append(appendTD(outRoles.join(',')));
+
+                        tr.append(appendTD('<input type="button" id="update" value="修改" onclick="toUrl(\'/sys/addOrUpdateUser.html?id=' + user.id + '\' )"/>' +
+                            '<input type="button" id="delete" value="删除" onclick="del(\'/user/' + user.id + '\')"/>'));
+                    }
+
+                    const pageParams = {
+                        id: 'pageDiv',
+                        page: result.data,
+                        onclick: 'getListPage(\'' + uri + '\', %s)',
+                    };
+                    page(pageParams);
+                },
+            );
+        }
+
+        var loadSearchRoles = function() {
+            start({}).then(data=> {
+                return $.get('/role/all', result => {
+                    var roles = result.data;
+                    var roleSelect =  $('#roleDiv');
+                    for(var i in roles) {
+                        var role = roles[i];
+                        roleSelect.append(role.roleName+'<input type="checkbox" name="roleIds" value="'+role.id+'"/>')
+                    }
+                }, 'json');
+            })
+        }
+
+        $(function () {
+            getListPage('/user/list', 1);
+            loadSearchRoles();
+        });
+    </script>
+    <style></style>
+</head>
+<body>
+
+<div style="height: 40px;">
+    <div style="float: left;">
+        <input type="button" value="跳转到用户组列表页面" onclick="toUrl('/sys/userGroup.html')"/>
+        <input type="button" value="跳转到用户列表页面" class="b-c-b f-w"/>
+        <input type="button" value="跳转到角色列表页面" onclick="toUrl('/sys/role.html')"/>
+        <input type="button" value="跳转到权限列表页面" onclick="toUrl('/sys/permission.html')"/>
+        <input type="button" value="跳转到操作列表页面" onclick="toUrl('/sys/operation.html')"/>
+    </div>
+    <div style="float: right;">
+        <input type="button" value="退出登录" onclick="toUrl('/request.html')"/>
+    </div>
+</div>
+<div style="height: 40px;">
+    <input type="button" value="新增" onclick="toUrl('/sys/addOrUpdateUser.html')"/>
+</div>
+<div>
+    <form id="search_form">
+        <div class="m-b-10">
+            <div class="inline m-r-10">
+                <div class="inline f-w">
+                    真实姓名:
+                </div>
+                <input name="realName"/>
+            </div>
+
+            <div class="inline m-r-10">
+                <div class="inline f-w">
+                    账号:
+                </div>
+                <input name="username"/>
+            </div>
+
+            <div class="inline m-r-10">
+                <div class="inline f-w">
+                    性别:
+                </div>
+                男<input type="checkbox" name="sexList" value="0"/>
+                女<input type="checkbox" name="sexList" value="1"/>
+            </div>
+            <div class="inline m-r-10">
+                <div class="inline f-w">
+                    用户类型:
+                </div>
+                系统用户<input type="checkbox" name="typeList" value="0"/>
+                普通用户<input type="checkbox" name="typeList" value="1"/>
+                其他用户<input type="checkbox" name="typeList" value="2"/>
+            </div>
+            <div class="inline m-r-10">
+                <div class="inline f-w">
+                    禁用:
+                </div>
+                是<input type="checkbox" name="enableList" value="0"/>
+                否<input type="checkbox" name="enableList" value="1"/>
+            </div>
+        </div>
+        <div class="m-b-10 m-t-5">
+            <div class="inline m-r-10">
+                <div class="inline f-w">
+                    年龄大于:
+                </div>
+                <input name="ageGt"/>
+                <div class="inline f-w">
+                    年龄小于:
+                </div>
+                <input name="ageLt"/>
+                <div class="inline f-w">
+                    创建时间大于:
+                </div>
+                <input name="createTimeGt"/>
+                <div class="inline f-w">
+                    创建时间小于:
+                </div>
+                <input name="createTimeLt"/>
+            </div>
+            <div class="inline m-r-10">
+                <div class="inline f-w">
+                    角色:
+                </div>
+                <div id="roleDiv" class="inline">
+                </div>
+            </div>
+            <input type="button" value="搜索" onclick="getListPage('/user/list', 1)">
+        </div>
+    </form>
+</div>
+<div id="test" style="width: 1540px;">
+    <table id="user_table" border="1px solid #000">
+        <thead>
+        <th>主键</th>
+        <th>真实姓名</th>
+        <th>账号</th>
+        <th>性别</th>
+        <th>用户类型</th>
+        <th>年龄</th>
+        <th>禁用</th>
+        <th>删除状态</th>
+        <th>创建者</th>
+        <th>修改者</th>
+        <th>创建时间</th>
+        <th>修改时间</th>
+        <th>版本</th>
+        <th>禁用时间</th>
+        <th>角色</th>
+        <th>操作</th>
+        </thead>
+        <tbody id="user_tbody"></tbody>
+    </table>
+    <div id="pageDiv"></div>
+</div>
+
+</body>
+</html>

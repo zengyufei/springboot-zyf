@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    include: 8081 # 引入 application-mapper.yml 配置
+
+mysql:
+  host: localhost
+  port: 3306
+  database: zyf
+  username: root
+  password: root

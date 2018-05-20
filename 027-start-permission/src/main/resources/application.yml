@@ -1,0 +1,6 @@
+# 加入启动参数 -Dspring.profiles.active=dev 启动该配置
+# 加入启动参数 -Dspring.profiles.active=prod 启动该配置
+spring:
+  profiles:
+    active: dev
+    include: mapper # 引入 application-mapper.yml 配置

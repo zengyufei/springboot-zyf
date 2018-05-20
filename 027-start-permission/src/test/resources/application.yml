@@ -1,0 +1,14 @@
+# 或加入启动参数 -Dspring.profiles.active=local-test 启动该配置
+spring:
+  profiles:
+    active: local-test
+
+
+logging:
+  # 为什么不配置 logback.xml, 因为 logback.xml 会先 application.properties 加载
+  # 而 logback-spring.xml 会后于 application.yml 加载
+  # 这样我们在 application.yml 文中设置日志文件名称和文件路径才能生效。
+
+  fileDir: d:/logs/ # 日志需要保存的路径
+  level:
+    root: debug # 日期级别

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyf.springboot.mapper.sys.PermissionMapper">
+    <!--<cache eviction="LRU" flushInterval="60000" readOnly="true"/>-->
+    <resultMap id="permissionMap" type="com.zyf.springboot.entity.sys.Permission"></resultMap>
+
+    <select id="selectAllParent" parameterType="int" resultMap="permissionMap">
+        SELECT DATA.* FROM(
+        SELECT
+        @id as _id,
+        ( SELECT @id := parent_id
+        FROM permission
+        WHERE id = @id
+        ) as _pid
+        FROM permission,
+        (SELECT @id := ${id}) b
+        WHERE @id &gt; 0
+        ) ID, permission DATA
+        WHERE ID._id = DATA.id and DATA.id != ${id}
+    </select>
+
+    <select id="selectAllChildren" parameterType="int" resultMap="permissionMap">
+        SELECT r.* FROM(
+        SELECT
+        @ids as _ids,
+        ( SELECT @ids := GROUP_CONCAT(id)
+        FROM permission
+        WHERE FIND_IN_SET(parent_id, @ids)
+        ) as cids
+        FROM permission,
+        (SELECT @ids :=${id}) b
+        WHERE @ids IS NOT NULL
+        ) all_id, permission r
+        WHERE FIND_IN_SET(r.id, all_id._ids) and `r`.id != ${id}
+        ORDER BY sort
+    </select>
+</mapper>

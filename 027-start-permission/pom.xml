@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.zyf.springboot</groupId>
+    <artifactId>demo27</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>demo27</name>
+    <description>demo27</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <!-- 1.5.11 版本有问题， mybatis-spring 1.1.1 版本跟不上，会报错 -->
+        <version>1.5.2.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+
+        <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
+        <mybatisplus.version>2.2.0</mybatisplus.version>
+
+        <mysql.version>5.1.44</mysql.version>
+        <mybatis.spring.boot.version>1.1.1</mybatis.spring.boot.version>
+        <druid.version>1.1.0</druid.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-validator</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- 启用 logback -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+
+        <!-- json -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <!-- lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+
+        <!-- springboot jdbc & mysql connection-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+
+        <!-- mybatis-plus begin -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatisplus-spring-boot-starter</artifactId>
+            <version>${mybatisplus-spring-boot-starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>${mybatisplus.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-generate</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- mybatis-plus end -->
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+        <!-- google 工具类 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>23.0</version>
+        </dependency>
+
+        <!-- 对象转换 -->
+        <dependency>
+            <groupId>ma.glasnost.orika</groupId>
+            <artifactId>orika-core</artifactId>
+            <version>1.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.0.10</version>
+        </dependency>
+
+        <!-- 测试 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.185</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jsonzou</groupId>
+            <artifactId>jmockdata</artifactId>
+            <version>3.1.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <!--指定资源的位置-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <profiles>
+        <profile>
+            <id>s</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                            <useSystemClassLoader>true</useSystemClassLoader>
+                            <testFailureIgnore>true</testFailureIgnore>
+                            <includes>
+                                <include>**/service/**</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/config/**</exclude>
+                                <exclude>**/controller/**</exclude>
+                                <exclude>**/mapper/**</exclude>
+                                <exclude>**/utils/**</exclude>
+                                <exclude>**/ApiTest.java</exclude>
+                                <exclude>**/*Application*.java</exclude>
+                            </excludes>
+                            <forkMode>once</forkMode>
+                            <threadCount>4</threadCount>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>c</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                            <useSystemClassLoader>true</useSystemClassLoader>
+                            <testFailureIgnore>true</testFailureIgnore>
+                            <includes>
+                                <include>**/controller/**</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/config/**</exclude>
+                                <exclude>**/service/**</exclude>
+                                <exclude>**/mapper/**</exclude>
+                                <exclude>**/utils/**</exclude>
+                                <exclude>**/ApiTest.java</exclude>
+                                <exclude>**/*Application*.java</exclude>
+                            </excludes>
+                            <forkMode>once</forkMode>
+                            <threadCount>4</threadCount>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>m</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                            <useSystemClassLoader>true</useSystemClassLoader>
+                            <testFailureIgnore>true</testFailureIgnore>
+                            <includes>
+                                <include>**/mapper/**</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/config/**</exclude>
+                                <exclude>**/controller/**</exclude>
+                                <exclude>**/service/**</exclude>
+                                <exclude>**/utils/**</exclude>
+                                <exclude>**/ApiTest.java</exclude>
+                                <exclude>**/*Application*.java</exclude>
+                            </excludes>
+                            <forkMode>once</forkMode>
+                            <threadCount>4</threadCount>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>mvc</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                            <useSystemClassLoader>true</useSystemClassLoader>
+                            <testFailureIgnore>true</testFailureIgnore>
+                            <includes>
+                                <include>**/service/**</include>
+                                <exclude>**/controller/**</exclude>
+                                <exclude>**/mapper/**</exclude>
+                            </includes>
+                            <excludes>
+                                <exclude>**/config/**</exclude>
+                                <exclude>**/utils/**</exclude>
+                                <exclude>**/ApiTest.java</exclude>
+                                <exclude>**/*Application*.java</exclude>
+                            </excludes>
+                            <forkMode>once</forkMode>
+                            <threadCount>4</threadCount>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
